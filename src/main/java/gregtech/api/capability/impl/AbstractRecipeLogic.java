@@ -41,7 +41,6 @@ public abstract class AbstractRecipeLogic extends MTETrait implements IWorkable 
     protected int maxProgressTime;
     protected int recipeEUt;
     protected List<FluidStack> fluidOutputs;
-
     protected NonNullList<ItemStack> itemOutputs;
     protected final Random random = new Random();
 
@@ -193,8 +192,7 @@ public abstract class AbstractRecipeLogic extends MTETrait implements IWorkable 
         for (int i = 0; i < lastItemInputs.length; i++) {
             ItemStack currentStack = inputs.getStackInSlot(i);
             ItemStack lastStack = lastItemInputs[i];
-            if (!ItemStack.areItemsEqual(currentStack, lastStack) ||
-                !ItemStack.areItemStackTagsEqual(currentStack, lastStack)) {
+            if (!areItemStacksEqual(currentStack, lastStack)) {
                 this.lastItemInputs[i] = currentStack.isEmpty() ? ItemStack.EMPTY : currentStack.copy();
                 shouldRecheckRecipe = true;
             } else if (currentStack.getCount() != lastStack.getCount()) {
@@ -216,6 +214,12 @@ public abstract class AbstractRecipeLogic extends MTETrait implements IWorkable 
             }
         }
         return shouldRecheckRecipe;
+    }
+
+    private static boolean areItemStacksEqual(ItemStack stackA, ItemStack stackB) {
+         return (stackA.isEmpty() && stackB.isEmpty()) ||
+             (ItemStack.areItemsEqual(stackA, stackB) &&
+                 ItemStack.areItemStackTagsEqual(stackA, stackB));
     }
 
     protected boolean setupAndConsumeRecipeInputs(Recipe recipe) {
