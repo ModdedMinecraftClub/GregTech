@@ -102,8 +102,9 @@ public class MetaTileEntityRotorHolder extends MetaTileEntityMultiblockPart impl
             for (int y = -1; y < 2; y++) {
                 BlockPos blockPos = centerPos.add(permuteXZ ? x : 0, y, permuteXZ ? 0 : x);
                 IBlockState blockState = getWorld().getBlockState(blockPos);
-                if (blockState.getBlock() != Blocks.AIR)
+                if (!blockState.getBlock().isAir(blockState, getWorld(), blockPos)) {
                     return false;
+                }
             }
         }
         return true;
