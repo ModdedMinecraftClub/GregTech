@@ -41,6 +41,7 @@ public abstract class AbstractRecipeLogic extends MTETrait implements IWorkable 
     protected int maxProgressTime;
     protected int recipeEUt;
     protected List<FluidStack> fluidOutputs;
+
     protected NonNullList<ItemStack> itemOutputs;
     protected final Random random = new Random();
 
